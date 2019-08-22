@@ -1,0 +1,46 @@
+<html>
+    <head></head>
+    <title>Ski Resort Weather</title>
+    <body>
+        <h2>Current Conditions</h2>
+        <table>
+            <tr>
+                <th>Resort Name</th>
+                <th>Inches Rain Per Hour</th>
+                <th>Chance of Precipitation</th>
+                <th>Day High Temp, F</th>
+                <th>Day Low Temp, F</th>
+            </tr>
+            {{ range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Today.RainInchesPerHour}}</td>
+                <td>{{.Today.ChanceOfPrecipitation}}</td>
+                <td>{{.Today.TemperatureHigh}}</td>
+                <td>{{.Today.TemperatureLow}}</td>
+            </tr>
+            {{ end }}
+        </table>
+        <h2>Tomorrow's Conditions</h2>
+        <table>
+            <tr>
+                <th>Resort Name</th>
+                <th>Inches Rain Per Hour</th>
+                <th>Chance of Precipitation</th>
+                <th>Day High Temp</th>
+                <th>Day Low Temp</th>
+            </tr>
+            {{ range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Tomorrow.RainInchesPerHour}}</td>
+                <td>{{.Tomorrow.ChanceOfPrecipitation}}</td>
+                <td>{{.Tomorrow.TemperatureHigh}}</td>
+                <td>{{.Tomorrow.TemperatureLow}}</td>
+            </tr>
+            {{ end }}
+        </table>
+
+        
+    </body>
+</html>
