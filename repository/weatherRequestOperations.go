@@ -16,12 +16,10 @@ func BuildURLslice(resorts *[]Resort) []URLinstance {
 	var URLslice []URLinstance
 
 	for _, resort := range *resorts {
-		var currentResortURL URLinstance
-
-		currentResortURL.URL = BuildForecastRequestURL(resort)
-		currentResortURL.ResortName = resort.Name
-
-		URLslice = append(URLslice, currentResortURL)
+		URLslice = append(URLslice, URLinstance{
+			URL:        BuildForecastRequestURL(resort),
+			ResortName: resort.Name,
+		})
 	}
 
 	return URLslice
@@ -29,6 +27,5 @@ func BuildURLslice(resorts *[]Resort) []URLinstance {
 
 // BuildForecastRequestURL contructs the url for the api requests
 func BuildForecastRequestURL(resort Resort) string {
-	DarkSkyURL := fmt.Sprintf("%s%s%f,%f", config.GetBaseURL(), config.GetAPIkey(), resort.Latitude, resort.Longitude)
-	return DarkSkyURL
+	return fmt.Sprintf("%s%s%f,%f", config.GetBaseURL(), config.GetAPIkey(), resort.Latitude, resort.Longitude)
 }
