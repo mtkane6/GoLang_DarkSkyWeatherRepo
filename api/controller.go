@@ -10,5 +10,4 @@ import (
 func BeginServer() {
 	http.HandleFunc("/", domain.HTMLRenderer)
 	log.Fatal(http.ListenAndServe(":8080", nil))
-	// domain.TestWeather()
 }

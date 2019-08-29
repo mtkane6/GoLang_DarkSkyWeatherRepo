@@ -8,6 +8,6 @@ func GetBaseURL() string {
 
 // GetAPIkey returns the unique API key to authenticate calls to DarkSky
 func GetAPIkey() string {
-	APIKey := "blank"
+	APIKey := "secret :)"
 	return APIKey
 }

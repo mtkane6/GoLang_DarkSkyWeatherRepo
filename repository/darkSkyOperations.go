@@ -1,5 +1,12 @@
 package repository
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
 // DarkSky holds the api key for making api calls
 type DarkSky struct {
 	APIKey string
@@ -7,10 +14,11 @@ type DarkSky struct {
 
 // DarkSkyResponse holds weather response information from DarkSky api
 type DarkSkyResponse struct {
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-	Timezone  string  `json:"timezone"`
-	Currently struct {
+	ResortName string
+	Latitude   float64 `json:"latitude"`
+	Longitude  float64 `json:"longitude"`
+	Timezone   string  `json:"timezone"`
+	Currently  struct {
 		Time                 int     `json:"time"` //  // t := time.Unix(1494505756, 0)
 		Summary              string  `json:"summary"`
 		Icon                 string  `json:"icon"`
@@ -117,33 +125,31 @@ type DarkSkyResponse struct {
 	Offset int `json:"offset"`
 }
 
-// AllWeatherResponse stores today and tomorrow forecast for html template display
-type AllWeatherResponse struct {
-	Today    []TodayWeatherResponse
-	Tomorrow []TomorrowWeatherResponse
+// CallDarkSky uses the resort data to call DarkSky for forecast
+func CallDarkSky(URLslice []URLinstance) []DarkSkyResponse {
+	var DarkSkyResponseSlice []DarkSkyResponse
+
+	for _, location := range URLslice {
+		resp, err := GetForecastResponse(location.URL)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer resp.Body.Close()
+
+		var darkSkyResponse DarkSkyResponse
+		b, err := ioutil.ReadAll(resp.Body)
+		json.Unmarshal([]byte(b), &darkSkyResponse)
+		darkSkyResponse.ResortName = location.ResortName
+		DarkSkyResponseSlice = append(DarkSkyResponseSlice, darkSkyResponse)
+	}
+	return DarkSkyResponseSlice
 }
 
-// TodayWeatherResponse aims to holds current weather conditions
-type TodayWeatherResponse struct {
-	RainInchesPerHour     float64
-	ChanceOfPrecipitation float64
-	TemperatureHigh       float64
-	TemperatureLow        float64
-}
-
-// TomorrowWeatherResponse aims to holds current weather conditions
-type TomorrowWeatherResponse struct {
-	RainInchesPerHour     float64
-	ChanceOfPrecipitation float64
-	TemperatureHigh       float64
-	TemperatureLow        float64
-}
-
-// Resort is the struct that keeps basic information of the resorts
-type Resort struct {
-	Name      string
-	Latitude  float32
-	Longitude float32
-	Today     TodayWeatherResponse
-	Tomorrow  TomorrowWeatherResponse
+// GetForecastResponse call DarkSky to retrieve resort forecast
+func GetForecastResponse(URL string) (*http.Response, error) {
+	resp, err := http.Get(URL)
+	if err != nil {
+		return resp, err
+	}
+	return resp, err
 }
