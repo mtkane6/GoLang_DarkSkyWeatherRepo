@@ -12,10 +12,10 @@ type URLinstance struct {
 }
 
 // BuildURLslice returns slice of URL strings to make GET requests
-func BuildURLslice(resorts *[]Resort) []URLinstance {
+func BuildURLslice(resorts []Resort) []URLinstance {
 	var URLslice []URLinstance
 
-	for _, resort := range *resorts {
+	for _, resort := range resorts {
 		URLslice = append(URLslice, URLinstance{
 			URL:        BuildForecastRequestURL(resort),
 			ResortName: resort.Name,

@@ -23,20 +23,20 @@ type TomorrowWeatherResponse struct {
 }
 
 // PopulateResortWeather uses DarkSkyResponse data to populate desired resort data to display
-func PopulateResortWeather(Resorts *[]Resort, weatherResponseSlice []DarkSkyResponse) {
+func PopulateResortWeather(Resorts []Resort, weatherResponseSlice []DarkSkyResponse) []Resort {
 
-	for i, resort := range *Resorts {
-		if resort.Name == weatherResponseSlice[i].ResortName {
-			resort.Today.RainInchesPerHour = weatherResponseSlice[i].Daily.Data[0].PrecipIntensity
-			resort.Today.ChanceOfPrecipitation = weatherResponseSlice[i].Daily.Data[0].PrecipProbability * 100
-			resort.Today.TemperatureHigh = weatherResponseSlice[i].Daily.Data[0].TemperatureHigh
-			resort.Today.TemperatureHigh = weatherResponseSlice[i].Daily.Data[0].TemperatureLow
+	for i := range Resorts {
+		if Resorts[i].Name == weatherResponseSlice[i].ResortName {
+			Resorts[i].Today.RainInchesPerHour = weatherResponseSlice[i].Daily.Data[0].PrecipIntensity
+			Resorts[i].Today.ChanceOfPrecipitation = weatherResponseSlice[i].Daily.Data[0].PrecipProbability * 100
+			Resorts[i].Today.TemperatureHigh = weatherResponseSlice[i].Daily.Data[0].TemperatureHigh
+			Resorts[i].Today.TemperatureLow = weatherResponseSlice[i].Daily.Data[0].TemperatureLow
 
-			resort.Tomorrow.ChanceOfPrecipitation = weatherResponseSlice[i].Daily.Data[1].PrecipProbability * 100
-			resort.Tomorrow.RainInchesPerHour = weatherResponseSlice[i].Daily.Data[1].PrecipIntensity
-			resort.Tomorrow.TemperatureHigh = weatherResponseSlice[i].Daily.Data[1].TemperatureHigh
-			resort.Tomorrow.TemperatureHigh = weatherResponseSlice[i].Daily.Data[1].TemperatureLow
+			Resorts[i].Tomorrow.ChanceOfPrecipitation = weatherResponseSlice[i].Daily.Data[1].PrecipProbability * 100
+			Resorts[i].Tomorrow.RainInchesPerHour = weatherResponseSlice[i].Daily.Data[1].PrecipIntensity
+			Resorts[i].Tomorrow.TemperatureHigh = weatherResponseSlice[i].Daily.Data[1].TemperatureHigh
+			Resorts[i].Tomorrow.TemperatureLow = weatherResponseSlice[i].Daily.Data[1].TemperatureLow
 		}
 	}
-
+	return Resorts
 }
