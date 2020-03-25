@@ -1,7 +1,7 @@
 package main
 
 import (
-	api "URL/api"
+	api "./api"
 )
 
 func main() {

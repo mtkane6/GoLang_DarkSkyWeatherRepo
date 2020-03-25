@@ -86,6 +86,7 @@ type DarkSkyResponse struct {
 			PrecipIntensityMax          float64 `json:"precipIntensityMax"`
 			PrecipIntensityMaxTime      int     `json:"precipIntensityMaxTime"`
 			PrecipProbability           float64 `json:"precipProbability"`
+			PrecipAccumulation          float64 `json:"precipAccumulation"`
 			PrecipType                  string  `json:"precipType,omitempty"`
 			TemperatureHigh             float64 `json:"temperatureHigh"`
 			TemperatureHighTime         int     `json:"temperatureHighTime"`
@@ -139,6 +140,8 @@ func CallDarkSky(URLslice []URLinstance) []DarkSkyResponse {
 		var darkSkyResponse DarkSkyResponse
 		b, err := ioutil.ReadAll(resp.Body)
 		json.Unmarshal([]byte(b), &darkSkyResponse)
+		// fmt.Printf("%v+", darkSkyResponse.Daily.Data[0])
+		// break
 		darkSkyResponse.ResortName = location.ResortName
 		DarkSkyResponseSlice = append(DarkSkyResponseSlice, darkSkyResponse)
 	}

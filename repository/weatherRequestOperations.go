@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"Url/config"
 	"fmt"
+
+	"../config"
 )
 
 // URLinstance is a URL request object
@@ -27,5 +28,5 @@ func BuildURLslice(resorts []Resort) []URLinstance {
 
 // BuildForecastRequestURL contructs the url for the api requests
 func BuildForecastRequestURL(resort Resort) string {
-	return fmt.Sprintf("%s%s%f,%f", config.GetBaseURL(), config.GetAPIkey(), resort.Latitude, resort.Longitude)
+	return fmt.Sprintf("%s%s%f,%f?exclude=currently", config.GetBaseURL(), config.GetAPIkey(), resort.Latitude, resort.Longitude)
 }
