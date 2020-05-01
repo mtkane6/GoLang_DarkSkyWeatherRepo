@@ -1,9 +1,8 @@
 package repository
 
 import (
+	"Url/config"
 	"fmt"
-
-	"../config"
 )
 
 // URLinstance is a URL request object
